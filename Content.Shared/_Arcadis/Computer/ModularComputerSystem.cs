@@ -72,7 +72,7 @@ public sealed class ModularComputerSystem : EntitySystem
             return;
         }
 
-        args.PushMarkup(Loc.GetString("modular-computer-examine-has-program", ("program", EntityManager.GetComponent<MetaDataComponent>(diskComp.ProgramPrototypeEntity.Value).EntityName)));
+        args.PushMarkup(Loc.GetString("modular-computer-examine-has-program", ("program", EntityManager.GetComponent<MetaDataComponent>(diskComp.ProgramPrototype).EntityName)));
     }
     private void OnActivate(EntityUid uid, ModularComputerComponent component, ActivateInWorldEvent args)
     {
@@ -101,7 +101,7 @@ public sealed class ModularComputerSystem : EntitySystem
 
         if (_netMan.IsServer) // Has to run only on server or mispredict opens 2 seperate UIs. Very bad.
         {
-            var activateMsg = new ActivateInWorldEvent(args.User, diskComp.ProgramPrototypeEntity.Value, true);
+            var activateMsg = new ActivateInWorldEvent(args.User, diskComp.ProgramPrototype, true);
             RaiseLocalEvent(diskComp.ProgramPrototypeEntity.Value, activateMsg);
         }
     }
@@ -136,13 +136,13 @@ public sealed class ModularComputerSystem : EntitySystem
         if (diskComp.ProgramPrototypeEntity == null || diskComp.PersistState != true)
         {
             if (diskComp.ProgramPrototypeEntity != null)
-                QueueDel(diskComp.ProgramPrototypeEntity.Value);
+                QueueDel(diskComp.ProgramPrototype);
 
             magicComputerEntity = Spawn(diskComp.ProgramPrototype, computer.Owner.ToCoordinates());
             diskComp.ProgramPrototypeEntity = magicComputerEntity;
         }
         else
-            magicComputerEntity = diskComp.ProgramPrototypeEntity.Value;
+            magicComputerEntity = diskComp.ProgramPrototype;
 
         _transform.SetParent(magicComputerEntity, diskSlot.Item.Value);
     }
