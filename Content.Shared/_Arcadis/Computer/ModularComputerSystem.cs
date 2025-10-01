@@ -101,7 +101,7 @@ public sealed class ModularComputerSystem : EntitySystem
 
         if (_netMan.IsServer) // Has to run only on server or mispredict opens 2 seperate UIs. Very bad.
         {
-            var activateMsg = new ActivateInWorldEvent(args.User, diskComp.ProgramPrototype, true);
+            var activateMsg = new ActivateInWorldEvent(args.User, diskComp.ProgramPrototypeEntity.Value, true);
             RaiseLocalEvent(diskComp.ProgramPrototypeEntity.Value, activateMsg);
         }
     }
@@ -136,7 +136,11 @@ public sealed class ModularComputerSystem : EntitySystem
         if (diskComp.ProgramPrototypeEntity == null || diskComp.PersistState != true)
         {
             if (diskComp.ProgramPrototypeEntity != null)
+<<<<<<< HEAD
                 QueueDel(diskComp.ProgramPrototypeEntity.value);
+=======
+                QueueDel(diskComp.ProgramPrototypeEntity.Value);
+>>>>>>> parent of 2994d25992 (adjustment to pink hoodie)
 
             magicComputerEntity = Spawn(diskComp.ProgramPrototypeEntity.Value, computer.Owner.ToCoordinates());
             diskComp.ProgramPrototypeEntity = magicComputerEntity;
