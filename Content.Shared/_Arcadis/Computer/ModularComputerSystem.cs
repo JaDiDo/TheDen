@@ -72,7 +72,7 @@ public sealed class ModularComputerSystem : EntitySystem
             return;
         }
 
-        args.PushMarkup(Loc.GetString("modular-computer-examine-has-program", ("program", EntityManager.GetComponent<MetaDataComponent>(diskComp.ProgramPrototype).EntityName)));
+        args.PushMarkup(Loc.GetString("modular-computer-examine-has-program", ("program", EntityManager.GetComponent<MetaDataComponent>(diskComp.ProgramPrototypeEntity.Value).EntityName)));
     }
     private void OnActivate(EntityUid uid, ModularComputerComponent component, ActivateInWorldEvent args)
     {
@@ -136,13 +136,13 @@ public sealed class ModularComputerSystem : EntitySystem
         if (diskComp.ProgramPrototypeEntity == null || diskComp.PersistState != true)
         {
             if (diskComp.ProgramPrototypeEntity != null)
-                QueueDel(diskComp.ProgramPrototype);
+                QueueDel(diskComp.ProgramPrototypeEntity.value);
 
-            magicComputerEntity = Spawn(diskComp.ProgramPrototype, computer.Owner.ToCoordinates());
+            magicComputerEntity = Spawn(diskComp.ProgramPrototypeEntity.Value, computer.Owner.ToCoordinates());
             diskComp.ProgramPrototypeEntity = magicComputerEntity;
         }
         else
-            magicComputerEntity = diskComp.ProgramPrototype;
+            magicComputerEntity = diskComp.ProgramPrototypeEntity.Value;
 
         _transform.SetParent(magicComputerEntity, diskSlot.Item.Value);
     }
